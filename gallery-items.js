@@ -1,4 +1,4 @@
-export default [
+const images = [
     {
       preview:
         'https://cdn.pixabay.com/photo/2019/05/14/16/43/himilayan-blue-poppy-4202825__340.jpg',
@@ -63,3 +63,66 @@ export default [
       description: 'Lighthouse Coast Sea',
     },
   ];
+  const gallery = document.querySelector('.js-gallery')
+  console.log(gallery)
+
+  const galleryListTemplate = ({preview, original, description})=>{
+  return`
+  <li class="gallery__item">
+    <a
+      class="gallery__link"
+      href="${original}"
+    >
+    <img
+      class="gallery__image"
+      src="${preview}"
+      data-source="${original}"
+      alt="${description}"
+    />
+  </a>
+</li>
+  `
+  }
+const markup =images.map(galleryListTemplate).join('')
+console.log(markup)
+gallery.insertAdjacentHTML('beforeend', markup)
+
+gallery.addEventListener('click', onOpenModal)
+const lightbox = document.querySelector('.js-lightbox')
+console.log(lightbox)
+
+
+function onOpenModal({target}){
+  if(target.nodeName!=='IMG'){
+    return
+  }
+  lightbox.classList.add('is-open')
+  console.log(lightbox)
+  window.addEventListener('keydown', keyPress)
+  const modalImg= lightbox.querySelector('img')
+  modalImg.src=target.dataset.source
+  const ah = document.querySelector('.gallery__link')
+  ah.removeAttribute("href")
+}
+
+
+const closebtn = document.querySelector("button")
+
+
+closebtn.addEventListener('click', onCloseModal)
+window.addEventListener('keydown', keyPress)
+
+function onCloseModal (){ 
+  lightbox.classList.remove('is-open')
+  closebtn.removeEventListener('click', keyPress)
+  window.removeEventListener('keydown', keyPress)
+  console.log(lightbox)
+  
+}
+function keyPress(event){
+  const ESC_pr = 'Escape'
+  if (event.code===ESC_pr){
+    onCloseModal()
+  }
+  console.log(event)  
+}
