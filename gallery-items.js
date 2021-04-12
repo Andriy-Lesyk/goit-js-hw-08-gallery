@@ -101,8 +101,9 @@ function onOpenModal({target}){
   window.addEventListener('keydown', keyPress)
   const modalImg= lightbox.querySelector('img')
   modalImg.src=target.dataset.source
-  const ah = document.querySelector('.gallery__link')
-  ah.removeAttribute("href")
+  const links = document.querySelectorAll('.gallery__link')
+  links.forEach(link=>
+  link.removeAttribute("href"))
 }
 
 
