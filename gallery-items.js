@@ -90,7 +90,7 @@ gallery.insertAdjacentHTML('beforeend', markup)
 gallery.addEventListener('click', onOpenModal)
 const lightbox = document.querySelector('.js-lightbox')
 console.log(lightbox)
-
+const modalImg= lightbox.querySelector('img')
 
 function onOpenModal({target}){
   if(target.nodeName!=='IMG'){
@@ -99,7 +99,6 @@ function onOpenModal({target}){
   lightbox.classList.add('is-open')
   console.log(lightbox)
   window.addEventListener('keydown', keyPress)
-  const modalImg= lightbox.querySelector('img')
   modalImg.src=target.dataset.source
   const links = document.querySelectorAll('.gallery__link')
   links.forEach(link=>
@@ -118,7 +117,8 @@ function onCloseModal (){
   closebtn.removeEventListener('click', keyPress)
   window.removeEventListener('keydown', keyPress)
   console.log(lightbox)
-  
+  modalImg.setAttribute("src", '')
+  console.log(modalImg.src)
 }
 function keyPress(event){
   const ESC_pr = 'Escape'
@@ -126,4 +126,16 @@ function keyPress(event){
     onCloseModal()
   }
   console.log(event)  
+}
+
+const backdrop = document.querySelector('.lightbox__overlay')
+backdrop.addEventListener('click', onBackdropClick)
+
+function onBackdropClick(event){
+  console.log(event.currentTarget)
+  console.log(event.target)
+
+  if(event.currentTarget===event.target){
+    onCloseModal();
+  }
 }
